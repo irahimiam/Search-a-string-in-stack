@@ -1,0 +1,98 @@
+// search.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include "stack.h"
+
+using namespace std;
+
+const int size = 7;
+stack container;
+
+int search(int, int ,int , char[] , char [][size]);
+
+int main()
+{
+	char a[size][size] = {
+		{ '$', '$', '$', '$', '$', '$', '$' },
+		{ '$', 'r', 'e', 'z', 'a', 'e', '$' },
+		{ '$', 'e', 'a', 'c', 'd', 'e', '$' },
+		{ '$', 'c', 'b', 'z', 'd', 'e', '$' },
+		{ '$', 'a', 'b', 'c', 'a', 'e', '$' },
+		{ '$', 'a', 'a', 'c', 'd', 'e', '$' },
+		{ '$', '$', '$', '$', '$', '$', '$' },
+	};
+
+	char name[10];
+	cout << "Enter Name You Want To Search\n";
+	cin >> name;
+
+	int k = 0;
+	int tempi, tempj;
+
+	for (int i = 1; i < size-1; i++) {
+		for (int j = 1; j < size-1; j++) {
+			if (a[i][j] == name[k]) {
+				tempi = i;
+				tempj = j;
+				container.push(i, j);
+				k++;
+			}else if (a[i - 1][j - 1] == name[k]) {
+				i--;
+				j--;
+				container.push(i, j);
+				k++;
+			}else if (a[i][j - 1] == name[k]) {
+				j--;
+				container.push(i, j);
+				k++;
+			}else if (a[i + 1][j - 1] == name[k]) {
+				i++;
+				j--;
+				container.push(i, j);
+					k++;
+			}else if (a[i - 1][j] == name[k]) {
+				i--;
+				container.push(i, j);
+				k++;
+			}else if (a[i + 1][j] == name[k]) {
+				i++;
+				container.push(i, j);
+				k++;
+			}else if (a[i - 1][j + 1] == name[k]) {
+				i--;
+				j++;
+				container.push(i, j);
+				k++;
+			}else if (a[i][j + 1] == name[k]) {
+				j++;
+				container.push(i, j);
+				k++;
+			}else if (a[i + 1][j + 1] == name[k]) {
+				i++;
+				j++;
+				container.push(i, j);
+				k++;
+			}else {
+				i = tempi;
+				j = tempj;
+				while (k!=0) {
+					container.pop();
+					k--;
+				}
+			}
+		}
+	}
+
+	if (k==0) {
+		cout << "Word not found";
+	}
+	else {
+		container.displayStack();
+	}
+
+	cin.get();
+	cin.get();
+}
